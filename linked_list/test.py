@@ -1,20 +1,22 @@
-from list_utils import LinkedList
+from list_utils import LinkedList, Node
 import pdb
 
 def main():
     print "Testing"
     lla = LinkedList('List-A')
-    lla.createRandomList(sorted=True)
+    lla.createRandomList(sorted=False)
     lla.printList()
     print ""
     llb = LinkedList('List-B')
-    llb.createRandomList(sorted=True)
-    llb.printList()
+    '''llb.createRandomList(sorted=False)
+    llb.printList()'''
     print ""
 
-
-    PairwiseSwap(lla, None, lla.HEAD)
+    new_head = MergeSort(lla.HEAD)
+    lla.HEAD = new_head
     lla.printList()
+
+
     #printNthNode(ll)
     #printMiddleElement(ll)
     #printNthNodeFromEnd(ll)
@@ -26,6 +28,113 @@ def main():
     #llc = mergeTwoLists(lla, llb)
     #llc.printList()
 
+    #PairwiseSwap(lla, None, lla.HEAD)
+    #lla.printList()
+
+    #Intersection(llb, llc)
+
+    '''
+    a, b = divide(lla.HEAD)
+    llb.HEAD = b
+
+    lla.sort()
+    llb.sort()
+    lla.printList()
+    llb.printList()
+    lla.HEAD = merge(a, b)
+    lla.printList()'''
+
+def divide(head):
+    if head is None:
+        return None, None
+
+    a = head
+    b = None
+
+    ptr1 = head
+    ptr2 = ptr1.link
+    if ptr2 is not None:
+        ptr2 = ptr2.link
+
+    while ptr2 is not None:
+        ptr1 = ptr1.link
+        ptr2 = ptr2.link
+        if ptr2 is None:
+            break
+        else:
+            ptr2 = ptr2.link
+
+    b = ptr1.link
+    ptr1.link = None
+    return a, b
+
+def merge(a, b):
+    if a is None:
+        return b
+    if b is None:
+        return a
+    head = a
+    prev = None
+    p1 = a
+    p2 = b
+    #print "p1=%d p2=%d" % (p1.data, p2.data)
+    while p2 is not None:
+        if p1 is not None and p1.data < p2.data:
+            #print "p1=%d p2=%d" % (p1.data, p2.data)
+            prev = p1
+            p1 = p1.link
+        else:
+            #print "p1=%s p2=%d" % ('NULL', p2.data)
+            node = p2
+            p2 = p2.link
+            if prev is not None:
+                prev.link = node
+                prev = node
+            else:
+                head = node
+                prev = node
+            node.link = p1
+    return head
+
+def MergeSort(head):
+    l1 = LinkedList('L1')
+    l2 = LinkedList('L2')
+    if head is None or head.link is None:
+        return head
+
+    a, b = divide(head)
+    '''l1.HEAD = a
+    l2.HEAD = b
+    print ""
+    l1.printList()
+    l2.printList()'''
+
+    sorted_a = MergeSort(a)
+    sorted_b = MergeSort(b)
+
+    new_head = merge(sorted_a, sorted_b)
+    return new_head
+
+
+
+def Intersection(l1, l2):
+    h1 = l1.HEAD
+    h2 = l2.HEAD
+
+    result = LinkedList('List-C')
+    while h1 is not None and h2 is not None:
+        if h1.data == h2.data:
+            result.insert(h1.data)
+            current_val = h1.data
+            while h1 is not None and h1.data == current_val:
+                h1 = h1.link
+            while h2 is not None and h2.data == current_val:
+                h2 = h2.link
+        elif h1.data < h2.data:
+            h1 = h1.link
+        else:
+            h2 = h2.link
+    result.printList()
 
 def converge(left, right, counter):
     """
