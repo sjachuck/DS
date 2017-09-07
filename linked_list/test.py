@@ -3,14 +3,55 @@ import pdb
 
 def main():
     print "Testing"
-    ll = LinkedList('MyList')
-    ll.printList()
-    ll.createRandomList()
-    ll.printList()
+    lla = LinkedList('List-A')
+    lla.createRandomList(sorted=True)
+    lla.printList()
+    print ""
+    llb = LinkedList('List-B')
+    llb.createRandomList(sorted=True)
+    llb.printList()
+    print ""
+    llc = mergeTwoLists(lla, llb)
+    llc.printList()
 
     #printNthNode(ll)
     #printMiddleElement(ll)
-    printNthNodeFromEnd(ll)
+    #printNthNodeFromEnd(ll)
+    #print ll.length()
+    #ll.sort()
+    #ll.HEAD = reverseList(ll.HEAD)
+
+def mergeTwoLists(a, b):
+    c = LinkedList('List-C')
+    ptr1 = a.HEAD
+    ptr2 = b.HEAD
+    while ptr1 is not None and ptr2 is not None:
+        if ptr1.data <= ptr2.data:
+            c.insert(ptr1.data)
+            ptr1 = ptr1.link
+        else:
+            c.insert(ptr2.data)
+            ptr2 = ptr2.link
+    while ptr1 is not None:
+        c.insert(ptr1.data)
+        ptr1 = ptr1.link
+    while ptr2 is not None:
+        c.insert(ptr2.data)
+        ptr2 = ptr2.link
+    return c
+
+def reverseList(head):
+    if head is None:
+        return None
+    new_head = reverseList(head.link)
+    next_node = head.link
+    if next_node is not None:
+        next_node.link = head
+    head.link = None
+    if new_head is not None:
+        return new_head
+    else:
+        return head
 
 def printNthNodeFromEnd(ll):
     N = input("Enter the reverse-index of element that you want to see: ")
