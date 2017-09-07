@@ -11,18 +11,20 @@ def main():
     llb.createRandomList(sorted=True)
     llb.printList()
     print ""
-    llc = mergeTwoLists(lla, llb)
-    llc.printList()
 
 
-
+    PairwiseSwap(lla, None, lla.HEAD)
+    lla.printList()
     #printNthNode(ll)
     #printMiddleElement(ll)
     #printNthNodeFromEnd(ll)
     #print ll.length()
     #ll.sort()
     #ll.HEAD = reverseList(ll.HEAD)
-    TwoWayPointerMovement(lla) #FUNDOO
+    #TwoWayPointerMovement(lla) #FUNDOO
+
+    #llc = mergeTwoLists(lla, llb)
+    #llc.printList()
 
 
 def converge(left, right, counter):
@@ -47,11 +49,24 @@ def TwoWayPointerMovement(l):
     print "TwoWayPointerMovement Demo"
     """
     Print sum of 1st and last elements, 2nd and 2nd last elem and so on
+    Same Approach can be used to check if a string is palindrome, Sorting a list having only 0s and 1s, etc
     :type l: LinkedList
     """
     head = l.HEAD
     tail = l.HEAD
     converge(head, tail, 1)
+
+def PairwiseSwap(ll, prev, head):
+    if head is None or head.link is None:
+        return
+    next = head.link
+    head.link = next.link
+    next.link = head
+    if prev is not None:
+        prev.link = next
+    else:
+        ll.HEAD = next
+    PairwiseSwap(ll, head, head.link)
 
 def mergeTwoLists(a, b):
     c = LinkedList('List-C')
