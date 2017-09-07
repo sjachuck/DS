@@ -14,12 +14,44 @@ def main():
     llc = mergeTwoLists(lla, llb)
     llc.printList()
 
+
+
     #printNthNode(ll)
     #printMiddleElement(ll)
     #printNthNodeFromEnd(ll)
     #print ll.length()
     #ll.sort()
     #ll.HEAD = reverseList(ll.HEAD)
+    TwoWayPointerMovement(lla) #FUNDOO
+
+
+def converge(left, right, counter):
+    """
+    counter is used to stop at the mid and not to repeat the same pairs again
+    :type left: Node
+    :type right: Node
+    """
+    if right is None:
+        print 'Starting to Print now'
+        return left, counter - 1 # Do not count None as an element. That's y subtract 1
+    new_left, new_counter = converge(left, right.link, counter + 1)
+    if new_counter > 0: # Only if
+        print "%d + %d = %d" % (new_left.data, right.data, new_left.data + right.data)
+        return new_left.link, new_counter - 2 # Subtracting 2 so that counter becomes zero mid way
+    else:
+        return 0, 0
+
+#FUNDOO# - Recursive version of traversing two pointers from two ends of the linked list.
+def TwoWayPointerMovement(l):
+    print ""
+    print "TwoWayPointerMovement Demo"
+    """
+    Print sum of 1st and last elements, 2nd and 2nd last elem and so on
+    :type l: LinkedList
+    """
+    head = l.HEAD
+    tail = l.HEAD
+    converge(head, tail, 1)
 
 def mergeTwoLists(a, b):
     c = LinkedList('List-C')
