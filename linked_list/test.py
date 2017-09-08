@@ -12,10 +12,10 @@ def main():
     llb.printList()'''
     print ""
 
-    new_head = MergeSort(lla.HEAD)
-    lla.HEAD = new_head
+    l, max = deleteNodesWithLargerToRight(lla.HEAD)
+    print "Max = %d" % max
+    lla.HEAD = l
     lla.printList()
-
 
     #printNthNode(ll)
     #printMiddleElement(ll)
@@ -42,7 +42,34 @@ def main():
     lla.printList()
     llb.printList()
     lla.HEAD = merge(a, b)
-    lla.printList()'''
+    lla.printList()
+    
+    
+    new_head = MergeSort(lla.HEAD)
+    lla.HEAD = new_head
+    lla.printList()
+    '''
+
+#FUNDOO
+def deleteNodesWithLargerToRight(head):
+    '''
+    Delete nodes which have a greater value on right side
+    :param head:
+    :return:
+    '''
+    max = 0
+    if head is None:
+        return (None, 0)
+    l, max = deleteNodesWithLargerToRight(head.link)
+    if l is None:
+        max = head.data
+        return head, max
+    if max > head.data:
+        return l, max
+    else:
+        head.link = l
+        max = head.data
+        return head, max
 
 def divide(head):
     if head is None:
